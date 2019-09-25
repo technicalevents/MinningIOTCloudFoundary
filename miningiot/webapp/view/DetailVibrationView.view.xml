@@ -1,0 +1,208 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.uxap" xmlns:layout="sap.ui.layout"
+	xmlns:viz="sap.viz.ui5.controls" xmlns:viz.data="sap.viz.ui5.data" xmlns:micro="sap.suite.ui.microchart"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:m="sap.m" controllerName="miningIOT.MiningIOT.controller.DetailVibrationView"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:table="sap.ui.table">
+	<ObjectPageLayout id="ObjectPageLayout" showTitleInHeaderContent="true" useIconTabBar="true" class="VibrationDetailPage">
+		<headerTitle>
+			<ObjectPageHeader objectImageURI="images/Machine1.jpg" objectTitle="{VibrationSensorModel>/SelectedVibrationSensor/MachineName}"
+				objectImageShape="Circle" objectSubtitle="{VibrationSensorModel>/SelectedVibrationSensor/TypeOfSensor}" isObjectTitleAlwaysVisible="false"
+				isObjectSubtitleAlwaysVisible="false">
+				<navigationBar>
+					<m:Bar>
+						<m:contentLeft>
+							<m:Button icon="sap-icon://nav-back" press="onNavBack"></m:Button>
+						</m:contentLeft>
+					</m:Bar>
+				</navigationBar>
+			</ObjectPageHeader>
+		</headerTitle>
+		<headerContent>
+			<layout:VerticalLayout>
+				<m:ObjectAttribute title="Location" text="{VibrationSensorModel>/SelectedVibrationSensor/Location}"></m:ObjectAttribute>
+			</layout:VerticalLayout>
+			<layout:VerticalLayout>
+				<m:ObjectAttribute title="Make" text="{VibrationSensorModel>/SelectedVibrationSensor/Make}"></m:ObjectAttribute>
+				<m:ObjectAttribute title="Model" text="{VibrationSensorModel>/SelectedVibrationSensor/Model}"></m:ObjectAttribute>
+			</layout:VerticalLayout>
+			<layout:VerticalLayout>
+				<m:ObjectAttribute title="Installation Time"
+					text="{path:'VibrationSensorModel>/SelectedVibrationSensor/InstallationTime', type:'sap.ui.model.odata.type.Date'}"></m:ObjectAttribute>
+				<m:ObjectAttribute title="Sensor" text="{VibrationSensorModel>/SelectedVibrationSensor/SensorName}"></m:ObjectAttribute>
+			</layout:VerticalLayout>
+			<layout:VerticalLayout>
+				<m:ObjectAttribute title="Variantion In Reading"
+					text="{parts: [{path: 'i18n>DELTA_VERIATION'}, {path: 'VibrationSensorModel>/SelectedVibrationSensor/Delta'}], formatter: 'jQuery.sap.formatMessage'}"></m:ObjectAttribute>
+				<m:ObjectAttribute title="Maximum Speed (in Hertz)" text="{VibrationSensorModel>/SelectedVibrationSensor/MaxSpeed}"></m:ObjectAttribute>
+			</layout:VerticalLayout>
+			<layout:VerticalLayout>
+				<m:ObjectStatus text="Healthy" state="Success" class="vibrationSensorActiveStatus"
+					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Healthy'}"/>
+				<m:ObjectStatus text="Critical" state="Error" class="vibrationSensorBreakDownStatus"
+					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Critical'}"/>
+				<m:HBox visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Critical' &amp;&amp; ${VibrationSensorModel>/SelectedVibrationSensor/IsMaintainanceOrder} === 'true'}">
+					<m:Text text="Maintainance Plan : "></m:Text>
+					<m:Text text="{VibrationSensorModel>/SelectedVibrationSensor/OrderId}"></m:Text>
+				</m:HBox>
+				<m:HBox visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Critical' &amp;&amp; ${VibrationSensorModel>/SelectedVibrationSensor/IsMaintainanceOrder} === 'false'}">
+					<m:Text text="Notification : "></m:Text>
+					<m:Link text="{VibrationSensorModel>/SelectedVibrationSensor/OrderId}" target="_blank"
+						href="{parts: [{path: 'VibrationSensorModel>/SelectedVibrationSensor/OrderId'}], formatter: '.formatNotificationLink'}"></m:Link>
+				</m:HBox>
+			</layout:VerticalLayout>
+		</headerContent>
+		<sections>
+			<ObjectPageSection id="idHistory" title="History" titleUppercase="false">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<table:Table selectionMode="None" visibleRowCount="20" 
+								rows="{path: 'VibrationSensorModel>/SelectedVibrationSensor/Data', sorter: {path: 'timestamp', descending: true }}">
+								<table:columns>
+									<table:Column sortProperty="timestamp" filterProperty="timestamp">
+										<table:multiLabels>
+											<m:Label text="Recording Time" textAlign="Center"/>
+										</table:multiLabels>
+										<table:template>
+											<m:Text text="{path: 'VibrationSensorModel>timestamp', type: 'sap.ui.model.type.DateTime', formatOptions: { style: 'medium' }}"/>
+										</table:template>
+									</table:Column>
+									<table:Column width="4rem" sortProperty="maxvib" filterProperty="maxvib" headerSpan="4" hAlign="Center">
+										<table:multiLabels>
+											<m:Label text="Vibration Speed (in Hertz)" textAlign="Center"/>
+											<m:Label text="maxvib" textAlign="Center"/>
+										</table:multiLabels>
+										<table:template>
+											<m:Text text="{VibrationSensorModel>measure/maxvib}" wrapping="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="4rem" sortProperty="xvib" filterProperty="xvib" hAlign="Center">
+										<table:multiLabels>
+											<m:Label text="Vibration Speed (in Hertz)" textAlign="Center"/>
+											<m:Label text="xvib" textAlign="Center"/>
+										</table:multiLabels>
+										<table:template>
+											<m:Text text="{VibrationSensorModel>measure/xvib}" wrapping="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="4rem" sortProperty="yvib" filterProperty="yvib" hAlign="Center">
+										<table:multiLabels>
+											<m:Label text="Vibration Speed (in Hertz)" textAlign="Center"/>
+											<m:Label text="yvib" textAlign="Center"/>
+										</table:multiLabels>
+										<table:template>
+											<m:Text text="{VibrationSensorModel>measure/yvib}" wrapping="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="4rem" sortProperty="zvib" filterProperty="zvib" hAlign="Center">
+										<table:multiLabels>
+											<m:Label text="Vibration Speed (in Hertz)" textAlign="Center"/>
+											<m:Label text="zvib" textAlign="Center"/>
+										</table:multiLabels>
+										<table:template>
+											<m:Text text="{VibrationSensorModel>measure/zvib}" wrapping="false" />
+										</table:template>
+									</table:Column>
+									<table:Column width="9rem" sortProperty="temperature" filterProperty="temperature">
+										<table:multiLabels>
+											<m:Label text="Temperature(°C)" textAlign="Center"/>
+										</table:multiLabels>
+										<table:template>
+											<m:Text text="{VibrationSensorModel>measure/temperature}"/>
+										</table:template>
+									</table:Column>
+									<table:Column width="9rem" sortProperty="humidity" filterProperty="humidity">
+										<table:multiLabels>
+											<m:Label text="Humidity(%)" textAlign="Center"/>
+										</table:multiLabels>
+										<table:template>
+											<m:Text text="{VibrationSensorModel>measure/humidity}"/>
+										</table:template>
+									</table:Column>
+									<table:Column width="9rem" sortProperty="battery" filterProperty="battery">
+										<table:multiLabels>
+											<m:Label text="Battery(%)" textAlign="Center"/>
+										</table:multiLabels>
+										<table:template>
+											<m:Text text="{VibrationSensorModel>measure/battery}"/>
+										</table:template>
+									</table:Column>
+									<table:Column width="9rem" sortProperty="battraw" filterProperty="battraw">
+										<table:multiLabels>
+											<m:Label text="Battraw" textAlign="Center"/>
+										</table:multiLabels>
+										<table:template>
+											<m:Text text="{VibrationSensorModel>measure/battraw}"/>
+										</table:template>
+									</table:Column>
+								</table:columns>
+							</table:Table>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection id="idAnalysis" title="Analysis" importance="Medium" titleUppercase="false">
+				<ObjectPageSubSection >
+					<blocks>
+						<m:VBox>
+							<viz:VizFrame id="idVizFrame" vizProperties="{ title: {text : 'Max Vibration Speed vs Time', visible : true}}" 
+								uiConfig="{applicationSet:'fiori'}" height='500px' width="100%" vizType='line'>
+								<viz:dataset>
+									<viz.data:FlattenedDataset data="{VibrationSensorModel>/SelectedVibrationSensor/Data}">
+										<viz.data:dimensions>
+											<viz.data:DimensionDefinition name="Time" value="{path:'VibrationSensorModel>timestamp', type:'sap.ui.model.odata.type.DateTimeOffset'}"/>
+										</viz.data:dimensions>
+										<viz.data:measures>
+											<viz.data:MeasureDefinition name="Max Vibration Speed" value="{VibrationSensorModel>measure/maxvib}"/>
+											<viz.data:MeasureDefinition name="Temperature" value="{VibrationSensorModel>measure/temperature}"/>
+											<viz.data:MeasureDefinition name="Humidity" value="{VibrationSensorModel>measure/humidity}"/>
+										</viz.data:measures>
+									</viz.data:FlattenedDataset>
+								</viz:dataset>
+								<viz:feeds>
+									<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="Max Vibration Speed"/>
+								    <viz.feeds:FeedItem id='valueAxisFeed1' uid="valueAxis" type="Measure" values="Temperature"/>
+								    <viz.feeds:FeedItem id='valueAxisFeed2' uid="valueAxis" type="Measure" values="Humidity"/>
+									<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Time"/>
+								</viz:feeds>
+							</viz:VizFrame>
+							<!--<viz:VizFrame id="idVizFrame1" vizProperties="{ title: {text : 'Temperature vs Time', visible : true}}" -->
+							<!--	uiConfig="{applicationSet:'fiori'}" height='500px' width="100%" vizType='line'>-->
+							<!--	<viz:dataset>-->
+							<!--		<viz.data:FlattenedDataset data="{VibrationSensorModel>/SelectedVibrationSensor/Data}">-->
+							<!--			<viz.data:dimensions>-->
+							<!--				<viz.data:DimensionDefinition name="Time" value="{path:'VibrationSensorModel>timestamp', type:'sap.ui.model.odata.type.DateTimeOffset'}"/>-->
+							<!--			</viz.data:dimensions>-->
+							<!--			<viz.data:measures>-->
+							<!--				<viz.data:MeasureDefinition name="Temperature" value="{VibrationSensorModel>measure/temperature}"/>-->
+							<!--			</viz.data:measures>-->
+							<!--		</viz.data:FlattenedDataset>-->
+							<!--	</viz:dataset>-->
+							<!--	<viz:feeds>-->
+							<!--		<viz.feeds:FeedItem id='valueAxisFeed1' uid="valueAxis" type="Measure" values="Temperature"/>-->
+							<!--		<viz.feeds:FeedItem id='categoryAxisFeed1' uid="categoryAxis" type="Dimension" values="Time"/>-->
+							<!--	</viz:feeds>-->
+							<!--</viz:VizFrame>-->
+							<!--<viz:VizFrame id="idVizFrame2" vizProperties="{ title: {text : 'Humidity vs Time', visible : true}}" -->
+							<!--	uiConfig="{applicationSet:'fiori'}" height='500px' width="100%" vizType='line'>-->
+							<!--	<viz:dataset>-->
+							<!--		<viz.data:FlattenedDataset data="{VibrationSensorModel>/SelectedVibrationSensor/Data}">-->
+							<!--			<viz.data:dimensions>-->
+							<!--				<viz.data:DimensionDefinition name="Time" value="{path:'VibrationSensorModel>timestamp', type:'sap.ui.model.odata.type.DateTimeOffset'}"/>-->
+							<!--			</viz.data:dimensions>-->
+							<!--			<viz.data:measures>-->
+							<!--				<viz.data:MeasureDefinition name="Humidity" value="{VibrationSensorModel>measure/humidity}"/>-->
+							<!--			</viz.data:measures>-->
+							<!--		</viz.data:FlattenedDataset>-->
+							<!--	</viz:dataset>-->
+							<!--	<viz:feeds>-->
+							<!--		<viz.feeds:FeedItem id='valueAxisFeed2' uid="valueAxis" type="Measure" values="Humidity"/>-->
+							<!--		<viz.feeds:FeedItem id='categoryAxisFeed2' uid="categoryAxis" type="Dimension" values="Time"/>-->
+							<!--	</viz:feeds>-->
+							<!--</viz:VizFrame>-->
+						</m:VBox>
+					</blocks>
+				</ObjectPageSubSection>
+			</ObjectPageSection>
+		</sections>
+	</ObjectPageLayout>
+</mvc:View>

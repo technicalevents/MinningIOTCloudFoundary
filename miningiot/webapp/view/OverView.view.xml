@@ -1,0 +1,138 @@
+<mvc:View controllerName="miningIOT.MiningIOT.controller.OverView" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic"
+	xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:fb="sap.ui.comp.filterbar" xmlns:sm="sap.ui.comp.smartmicrochart"
+	xmlns:mc="sap.suite.ui.microchart" xmlns:viz="sap.viz.ui5.controls" xmlns:viz.data="sap.viz.ui5.data" xmlns:micro="sap.suite.ui.microchart"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:core="sap.ui.core">
+	<semantic:FullscreenPage title="IOT Vibration Sensor Data" navButtonPress="onNavBack" showNavButton="false">
+		<semantic:content>
+			<fb:FilterBar showGoOnFB="true" search="onPressSearch">
+				<fb:filterItems>
+					<fb:FilterItem label="Search" name="BasicSearch">
+						<fb:control>
+							<Input id="idSearchField" placeholder=""></Input>
+						</fb:control>
+					</fb:FilterItem>
+					<!--<fb:FilterItem label="Sensor" name="Sensor">-->
+					<!--	<fb:control>-->
+					<!--		<ComboBox-->
+					<!--			items="{-->
+					<!--				path: 'VibrationSensorModel>/Sensor',-->
+					<!--				sorter: { path: 'Sensor' }-->
+					<!--			}" id="idSensorField">-->
+					<!--			<core:Item key="{VibrationSensorModel>Sensor}" text="{VibrationSensorModel>Sensor}" />-->
+					<!--		</ComboBox>-->
+					<!--	</fb:control>-->
+					<!--</fb:FilterItem>-->
+					<fb:FilterItem label="Machine" name="Machine">
+						<fb:control>
+							<ComboBox
+								items="{
+									path: 'VibrationSensorModel>/Machine',
+									sorter: { path: 'Machine' }
+								}" id="idMachineField">
+								<core:Item key="{VibrationSensorModel>Machine}" text="{VibrationSensorModel>Machine}" />
+							</ComboBox>
+						</fb:control>
+					</fb:FilterItem>
+					<fb:FilterItem label="Status" name="Status">
+						<fb:control>
+							<ComboBox
+								items="{
+									path: 'VibrationSensorModel>/Status',
+									sorter: { path: 'Status' }
+								}" id="idStatusField">
+								<core:Item key="{VibrationSensorModel>Status}" text="{VibrationSensorModel>Status}" />
+							</ComboBox>
+						</fb:control>
+					</fb:FilterItem>
+					<fb:FilterItem label="Date" name="TimeStamp">
+						<fb:control>
+							<DatePicker placeholder="" id="idDateField"></DatePicker>
+						</fb:control>
+					</fb:FilterItem>
+				</fb:filterItems>
+			</fb:FilterBar>
+			<l:VerticalLayout class="sapUiTinyMarginTop">
+				<Table width="100%" 
+				        id="idVibrationTableSensorTable"
+						items="{VibrationSensorModel>/UIFixedSensorData}" 
+						sticky="ColumnHeaders,HeaderToolbar" 
+						enableBusyIndicator="true"
+						class="VibrationSensorTableColumn">
+					<columns>
+						<!--<Column width="12%">-->
+						<!--	<Text text="Sensor"></Text>-->
+						<!--</Column>-->
+						<Column width="15%">
+							<Text text="Machine"></Text>
+						</Column>
+						<Column width="25%">
+							<Text text="Location"></Text>
+						</Column>
+						<Column width="10%" hAlign="Center">
+							<Text text="Vibration Speed (in Hertz)"></Text>
+						</Column>
+						<Column width="15%">
+							<Text text="Date"></Text>
+						</Column>
+						<Column width="15%">
+							<Text text="Status"></Text>
+						</Column>
+						<Column width="15%">
+							<Text text=""></Text>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem type="Navigation" press="onVibrationDetailPress">
+							<cells>
+								<!--<VBox>-->
+								<!--<ObjectIdentifier-->
+								<!--	title="{VibrationSensorModel>SensorName}"/>-->
+									<!--<Text text="{VibrationSensorModel>SensorId}"></Text>-->
+								<!--</VBox>-->
+								<VBox>
+								<ObjectIdentifier
+									title="{VibrationSensorModel>MachineName}"/>
+									<!--<Text text="{VibrationSensorModel>MachineId}"></Text>-->
+								</VBox>
+								<Text text="{VibrationSensorModel>Location}"></Text>
+								<Text text="{VibrationSensorModel>VibrationSpeed}"></Text>
+								<Text text="{path: 'VibrationSensorModel>TimeStamp', type: 'sap.ui.model.type.DateTime', formatOptions: { style: 'medium' }}"></Text>
+								<!--<Text text="{VibrationSensorModel>Threshold}"></Text>-->
+								<VBox>
+									<ObjectStatus text="Healthy" state="Success" visible="{= ${VibrationSensorModel>Status} === 'Healthy'}"/>
+									<ObjectStatus text="Critical" inverted="true" state="Error" visible="{= ${VibrationSensorModel>Status} === 'Critical'}"/>
+									<HBox visible="{= ${VibrationSensorModel>Status} === 'Critical' &amp;&amp; ${VibrationSensorModel>IsMaintainanceOrder} === 'true'}">
+										<Text text="Maintainance Plan : "></Text>
+										<Text text="{VibrationSensorModel>OrderId}"></Text>
+									</HBox>
+									<HBox visible="{= ${VibrationSensorModel>Status} === 'Critical' &amp;&amp; ${VibrationSensorModel>IsMaintainanceOrder} === 'false'}">
+										<Text text="Notification : "></Text>
+										<Link text="{VibrationSensorModel>OrderId}"
+										target="_blank" href="{parts: [{path: 'VibrationSensorModel>OrderId'}], formatter: '.formatNotificationLink'}"></Link>
+									</HBox>
+								</VBox>
+								<micro:BulletMicroChart size="M" scale="Hertz" press="press">
+									<micro:actual>
+										<micro:BulletMicroChartData value="{VibrationSensorModel>VibrationSpeed}" 
+																	color="{parts: [{path:'VibrationSensorModel>VibrationSpeed'}], 
+																			formatter: '.formatBulletMicroChart'}"/>
+									</micro:actual>
+									<micro:thresholds>
+										<micro:BulletMicroChartData value="0" color="Critical"/>
+										<micro:BulletMicroChartData value="2" color="Good"/>
+										<micro:BulletMicroChartData value="7" color="Good"/>
+										<micro:BulletMicroChartData value="12" color="Critical"/>
+									</micro:thresholds>
+								</micro:BulletMicroChart>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+				<VBox height="35rem" 
+					  id="idGoogleMapTrial"
+					  class="sapUiSmallMarginTopBottom sapUiMediumMarginEnd">
+				</VBox>
+			</l:VerticalLayout>
+		</semantic:content>
+	</semantic:FullscreenPage>
+</mvc:View>

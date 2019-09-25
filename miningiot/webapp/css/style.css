@@ -1,0 +1,9 @@
+/* Enter your custom styles here */
+.VibrationSensorTableColumn .sapMListTblNavCol, .sapMListTblCell{
+	vertical-align: middle;
+}
+
+.VibrationDetailPage .sapUxAPObjectPageHeaderIdentifier.sapUxAPObjectPageHeaderIdentifierForce, 
+.VibrationDetailPage .sapUxAPObjectPageHeaderStickied .sapUxAPObjectPageHeaderIdentifier {
+	display: none;
+}

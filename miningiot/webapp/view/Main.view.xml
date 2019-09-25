@@ -1,0 +1,22 @@
+<mvc:View controllerName="miningIOT.MiningIOT.controller.Main" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+	<Shell id="shell">
+		<App id="app" backgroundImage="images/IoT_devices.jpg" backgroundOpacity="0.2">
+			<pages>
+				<Page title="IOT Vibration Sensor Data">
+					<content>
+						<GenericTile header="Vibration Sensor Data from SCP" class="sapUiMediumMarginBegin sapUiLargeMarginTop"
+							press="OnSCPTilePress">
+							<tileContent>
+								<TileContent >
+									<content>
+										<Text text="Monitor vibrartion sensor data retrieved from SCP"/>
+									</content>
+								</TileContent>
+							</tileContent>
+						</GenericTile>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>

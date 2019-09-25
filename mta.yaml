@@ -1,0 +1,38 @@
+ID: mining.iot
+_schema-version: '2.1'
+version: 0.0.1
+
+modules:
+ - name: miningiot
+   type: html5
+   path: miningiot
+   parameters:
+      disk-quota: 256M
+      memory: 256M
+   build-parameters:
+      builder: grunt
+   requires:
+    - name: uaa_mining.iot
+    - name: dest_mining.iot
+    - name: connectivity_mining.iot
+
+resources:
+ - name: uaa_mining.iot
+   parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+   type: org.cloudfoundry.managed-service
+
+ - name: dest_mining.iot
+   parameters:
+      service-plan: lite
+      service: destination
+   type: org.cloudfoundry.managed-service
+   
+ - name: connectivity_mining.iot
+   parameters:
+      service-plan: lite
+      service: connectivity
+   type: org.cloudfoundry.managed-service
+

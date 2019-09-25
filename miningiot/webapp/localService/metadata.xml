@@ -1,0 +1,22 @@
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+<edmx:DataServices m:DataServiceVersion="2.0">
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZIOT_TEMP_DATA_ODATA_SERVICE_SRV" xml:lang="en" sap:schema-version="1">
+<EntityType Name="Temp" sap:content-version="1">
+<Key>
+<PropertyRef Name="Index"/>
+</Key>
+<Property Name="Index" Type="Edm.Byte" Nullable="false" sap:unicode="false" sap:label="Int." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Date" Type="Edm.DateTime" Nullable="false" Precision="0" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Time" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Temperature" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="TempUnit" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Temp Units" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+<Property Name="Humidity" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+</EntityType>
+<EntityContainer Name="ZIOT_TEMP_DATA_ODATA_SERVICE_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+<EntitySet Name="TempSet" EntityType="ZIOT_TEMP_DATA_ODATA_SERVICE_SRV.Temp" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:searchable="true" sap:addressable="true" sap:content-version="1"/>
+</EntityContainer>
+<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="https://webidetesting7854730-i334119sapdev.dispatcher.int.sap.hana.ondemand.com/sap/opu/odata/SAP/ZIOT_TEMP_DATA_ODATA_SERVICE_SRV/$metadata"/>
+<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="https://webidetesting7854730-i334119sapdev.dispatcher.int.sap.hana.ondemand.com/sap/opu/odata/SAP/ZIOT_TEMP_DATA_ODATA_SERVICE_SRV/$metadata"/>
+</Schema>
+</edmx:DataServices>
+</edmx:Edmx>
