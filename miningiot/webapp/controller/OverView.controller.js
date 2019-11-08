@@ -165,7 +165,7 @@ sap.ui.define([
 		                type: "GET",
 		                contentType: "application/json",
 		                crossDomain: true,
-		                url:  "/mining/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=150&orderby=timestamp%20desc",
+		                url:  "/mining/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=250&orderby=timestamp%20desc",
 		                 //url: "https://ibso-iot-services-poc.leonardo-iot.cfapps.eu10.hana.ondemand.com/comsapleonardoiot.iotuithingmodelerodata/appiot-mds/Things('4F88162A2BC542E78EA7EE6695F59B9D')/ibso.iotservicespoc.mining.demo:VibrationType/VibrationThingDemo?timerange=3M",
 		                xhrFields: {
 		                    withCredentials: true
@@ -287,7 +287,7 @@ sap.ui.define([
                 type: "GET",
                 contentType: "application/json",
                 crossDomain: true,
-                url: "/mining/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=150&orderby=timestamp%20desc",
+                url: "/mining/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=250&orderby=timestamp%20desc",
                 xhrFields: {
                     withCredentials: true
                 },
